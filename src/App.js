@@ -2,27 +2,29 @@ import { useEffect } from "react";
 import { useState } from "react"
 
 export default function App(){
-  const [amount,setamount]=useState(1);
+  const [amount,setamount]=useState('');
   const [from ,setfrom]=useState('USD')
   const [to,setto]=useState('USD');
   const [converted,setconverted]=useState('');
 useEffect(function(){
  async function convert(){
-  const res=await fetch(`https://api.frankfurter.app/latest?amount=${amount}&from=${from}&to=${to}`);
+  const res=await fetch(`https://api.frankfurter.app/latest?amount=${amount===0 ? '':amount}&from=${from}&to=${to}`);
   const data=await res.json();
   
   setconverted(data.rates[to]);
   
+  
 
  }
+ 
  if(from===to) return setconverted(amount);
  convert()
-
+ 
  
 
 },[amount,to,from]);
 
-  return <div className="gap-24 flex flex-col  items-center justify-center">
+  return <div className="gap-24 flex flex-col mt-40 items-center justify-center">
     <Calculate 
      amount={amount}
       setamount={setamount}
